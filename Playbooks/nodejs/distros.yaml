@@ -1,0 +1,17 @@
+---
+- name: Install NodeJS
+  become: yes
+  hosts: all
+  tasks:
+    - name: Installing NodeJS on ubuntu
+      ansible.builtin.apt:
+        name: nodejs
+        update_cache: yes
+        state: present
+      when: ansible_facts['os_family'] == "Ubuntu"
+    - name: Installing NodeJS on RedHat
+      ansible.builtin.yum:
+        name: nodejs
+        update_cache: yes
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
