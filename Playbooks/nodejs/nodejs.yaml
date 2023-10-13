@@ -5,6 +5,6 @@
   tasks:
     - name: Install node
       ansible.builtin.apt:
-        name: node
+        name: nodejs
         update_cache: yes
         state: present
