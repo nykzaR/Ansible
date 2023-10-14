@@ -1,2 +1,3 @@
+[appserver]
 172.31.32.199 node_package=nodejs
 172.31.34.232 node_package=nodejs

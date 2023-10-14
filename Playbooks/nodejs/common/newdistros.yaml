@@ -1,0 +1,9 @@
+---
+- name: Install NodeJS
+  become: yes
+  hosts: appserver
+  tasks:
+    - name: Install nodejs
+      package:
+        name: "{{ node_package }}"
+        state: present
