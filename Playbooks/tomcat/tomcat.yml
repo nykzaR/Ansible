@@ -7,7 +7,7 @@
     - home_dir: /opt/tomcat
     - tomcat_latest: "{{ home_dir }}/latest"
     - default_shell: /bin/false
-    - VERSION: 10.1.14
+    - VERSION: "10.1.14"
   tasks:
     - name: update packages
       apt:
@@ -26,6 +26,8 @@
       ansible.builtin.get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-10/v${VERSION}/bin/apache-tomcat-${VERSION}.tar.gz
         dest: /tmp
+        owner: "{{ username }}"
+        group: "{{ username }}"
     - name: Extract tomcat
       ansible.builtin.unarchive:
         src: /tmp/apache-tomcat-${VERSION}.tar.gz
@@ -36,6 +38,6 @@
       ansible.builtin.file:
         path: "{{ home_dir }}/apache-tomcat-${VERSION}"
         dest: "{{ tomcat_latest }}"
-        group: "{{ username }}"
         owner: "{{ username }}"
+        group: "{{ username }}"
         state: link
