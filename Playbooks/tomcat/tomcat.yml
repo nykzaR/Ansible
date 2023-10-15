@@ -36,8 +36,15 @@
         remote_src: yes
     - name: Create a symlink
       ansible.builtin.file:
-        path: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
+        src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ tomcat_latest }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         state: link
+    - name: change ownership
+      ansible.builtin.file:
+        path: "{{ home_dir }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        state: directory
+        recurse: yes
