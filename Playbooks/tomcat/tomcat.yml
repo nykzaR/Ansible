@@ -25,7 +25,7 @@
     - name: Download tomcat
       ansible.builtin.get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-10/v${VERSION}/bin/apache-tomcat-${VERSION}.tar.gz
-        dest: /tmp
+        dest: /tmp/apache-tomcat-${VERSION}.tar.gz
         owner: "{{ username }}"
         group: "{{ username }}"
     - name: Extract tomcat
