@@ -1,0 +1,41 @@
+---
+- name: Install tomcat
+  become: yes
+  hosts: appserver
+  variables:
+    - username: tomcat
+    - home_dir: /opt/tomcat
+    - tomcat_latest: "{{ home_dir }}/latest"
+    - default_shell: /bin/false
+    - VERSION: 10.1.14
+  tasks:
+    - name: update packages
+      apt:
+        update_cache: yes
+    - name: Install java11
+      package:
+        name: "{{ java_package }}"
+        state: present
+    - name: useradd tc
+      ansible.builtin.user:
+        name: "{{ username }}"
+        create_home: yes
+        home: "{{ home_dir }}"
+        shell: "{{ default_shell }}"
+    - name: Download tomcat
+      ansible.builtin.get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-10/v${VERSION}/bin/apache-tomcat-${VERSION}.tar.gz
+        dest: /tmp
+    - name: Extract tomcat
+      ansible.builtin.unarchive:
+        src: /tmp/apache-tomcat-${VERSION}.tar.gz
+        owner: "{{ username }}"
+        dest: "{{ home_dir }}/apache-tomcat-${VERSION}"
+        remote_src: yes
+    - name: Create a symlink
+      ansible.builtin.file:
+        path: "{{ home_dir }}/apache-tomcat-${VERSION}"
+        dest: "{{ tomcat_latest }}"
+        group: "{{ username }}"
+        owner: "{{ username }}"
+        state: link
