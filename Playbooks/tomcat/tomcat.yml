@@ -7,7 +7,7 @@
     - home_dir: /opt/tomcat
     - tomcat_latest: "{{ home_dir }}/latest"
     - default_shell: /bin/false
-    - VERSION: "10.1.14"
+    - tomcat_version: "10.1.14"
   tasks:
     - name: update packages
       apt:
@@ -24,19 +24,19 @@
         shell: "{{ default_shell }}"
     - name: Download tomcat
       ansible.builtin.get_url:
-        url: https://dlcdn.apache.org/tomcat/tomcat-10/v${VERSION}/bin/apache-tomcat-${VERSION}.tar.gz
-        dest: /tmp/apache-tomcat-${VERSION}.tar.gz
+        url: https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
+        dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
         owner: "{{ username }}"
         group: "{{ username }}"
     - name: Extract tomcat
       ansible.builtin.unarchive:
-        src: /tmp/apache-tomcat-${VERSION}.tar.gz
+        src: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
         owner: "{{ username }}"
-        dest: "{{ home_dir }}/apache-tomcat-${VERSION}"
+        dest: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
         remote_src: yes
     - name: Create a symlink
       ansible.builtin.file:
-        path: "{{ home_dir }}/apache-tomcat-${VERSION}"
+        path: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ tomcat_latest }}"
         owner: "{{ username }}"
         group: "{{ username }}"
