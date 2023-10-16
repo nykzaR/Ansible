@@ -53,12 +53,10 @@
       ansible.builtin.find:
         paths: "{{ tomcat_shell_file_path }}"
         patterns: "*.sh"
-    - name: Gather shell files
-      cmd:
-        register: "{{ executable_shell_files }}"
+      register: executable_shell_files
     - name: Printing the previous variable    
       debug:
-          var: "{{ executable_shell_files }}"
+          var: executable_shell_files
     - name: execuatble permissions to shell files
       ansible.builtin.file:
         path: "{{ item.path }}"
