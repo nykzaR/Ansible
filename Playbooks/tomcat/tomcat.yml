@@ -8,6 +8,7 @@
     - tomcat_latest: "{{ home_dir }}/latest"
     - default_shell: /bin/false
     - tomcat_version: "10.1.14"
+    - tomcat_shell_file_path: /opt/tomcat/latest/bin/
   tasks:
     - name: update packages
       apt:
@@ -48,3 +49,20 @@
         group: "{{ username }}"
         state: directory
         recurse: yes
+    - name: finding shell files
+      ansible.builtin.find:
+        paths: "{{ tomcat_shell_file_path }}"
+        patterns: "*.sh"
+    - name: Gather shell files
+      ansible.builtin.shell:
+        register: "{{ executable_shell_files }}"
+    - name: Printing the previous variable    
+      debug:
+          var: "{{ executable_shell_files }}"
+    - name: execuatble permissions to shell files
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0755"
+      loop: "{{ executable_shell_files.file }}"
