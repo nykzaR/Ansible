@@ -53,14 +53,14 @@
       ansible.builtin.find:
         paths: "{{ tomcat_shell_file_path }}"
         patterns: "*.sh"
-      register: executable_shell_files
+      register: shell_files_executables
     - name: Printing the previous variable    
       debug:
-          var: executable_shell_files
+          var: shell_files_executables
     - name: execuatble permissions to shell files
       ansible.builtin.file:
         path: "{{ item.path }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: "0755"
-      loop: "{{ executable_shell_files.file }}"
+      loop: "{{ shell_files_executables.files }}"
