@@ -54,7 +54,7 @@
         paths: "{{ tomcat_shell_file_path }}"
         patterns: "*.sh"
     - name: Gather shell files
-      ansible.builtin.shell:
+      cmd:
         register: "{{ executable_shell_files }}"
     - name: Printing the previous variable    
       debug:
