@@ -67,7 +67,7 @@
       loop: "{{ shell_files_executables.files }}"
     - name: copy the service file
       ansible.builtin.copy:
-        src: ./tomcat.service
+        src: /tomcat.service
         dest: "{{ tomcat_service_file_path }}"
         remote_src: yes
         owner: "{{ username }}"
