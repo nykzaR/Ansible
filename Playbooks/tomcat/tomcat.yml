@@ -69,7 +69,6 @@
       ansible.builtin.copy:
         src: 'tomcat.service'
         dest: "{{ tomcat_service_file_path }}"
-        remote_src: yes
         owner: "{{ username }}"
         group: "{{ username }}"
     - name: Restart tomcat
