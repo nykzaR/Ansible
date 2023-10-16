@@ -9,6 +9,7 @@
     - default_shell: /bin/false
     - tomcat_version: "10.1.14"
     - tomcat_shell_file_path: /opt/tomcat/latest/bin/
+    - tomcat_service_file_path: /etc/systemd/system/tomcat.service
   tasks:
     - name: update packages
       apt:
@@ -64,3 +65,16 @@
         group: "{{ username }}"
         mode: "0755"
       loop: "{{ shell_files_executables.files }}"
+    - name: copy the service file
+      ansible.builtin.copy:
+        src: ./tomcat.service
+        dest: "{{ tomcat_service_file_path }}"
+        remote_src: yes
+        owner: "{{ username }}"
+        group: "{{ username }}"
+    - name: Restart tomcat
+      ansible.builtin.systemd_service:
+        name: "{{ tomcat.service }}"
+        daemon_reload: yes
+        state: started
+        enabled: yes
