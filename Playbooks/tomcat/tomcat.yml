@@ -73,7 +73,7 @@
         owner: "{{ username }}"
         group: "{{ username }}"
     - name: Restart tomcat
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         name: "{{ tomcat.service }}"
         daemon_reload: yes
         state: started
