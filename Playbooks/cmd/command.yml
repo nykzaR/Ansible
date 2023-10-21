@@ -1,13 +1,12 @@
 ---
 - name: Command Execution from Ansible
   gather_facts: no
-  become: yes
   hosts: all
   tasks:
     - name: Execute commands if a specific module not found in ansible
+      become: yes
       ansible.builtin.command:
-        argv: 
-          - ufw app list
+        argv:
           - ufw status
       register: ufw_output
     - name: Print the output
