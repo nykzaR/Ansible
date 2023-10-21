@@ -1,7 +1,7 @@
 ---
 - name: Install LAMP
   become: yes
-  hosts: webserver
+  hosts: all
   tasks:
     - name: update packages
       apt:
