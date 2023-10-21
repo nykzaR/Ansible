@@ -29,7 +29,7 @@
   handlers:
     - name: ensure apache is enabled and restarted
       ansible.builtin.service:
-        name: 'apache2'
+        name: "{{ apache_package }}"
         daemon_reload: yes
         enabled: yes
-        state: restarted
+        state: started
