@@ -1,0 +1,18 @@
+---
+- name: Command Execution from Ansible
+  gather_facts: no
+  become: yes
+  hosts: all
+  tasks:
+    - name: Execute commands if a specific module not found in ansible
+      ansible.builtin.command:
+        argv: 
+          - ufw app list
+          - ufw status
+      register: ufw_o/p
+    - name: Print the output
+      debug:
+        msg: "{{ ufw_o/p }}"
+    - name: Using ansible magic/special variables
+      debug:
+        msg: "The clientip is {{ ansible_host }}"
