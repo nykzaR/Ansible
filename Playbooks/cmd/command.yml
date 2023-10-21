@@ -6,11 +6,11 @@
     - name: Execute commands if a specific module not found in ansible
       become: yes
       ansible.builtin.command:
-        cmd: 'sh ./ping.sh'
-      register: standard_output
+        cmd: 'ufw app list'
+      register: ufw_output
     - name: Print the output
       debug:
-        msg: "{{ standard_output }}"
+        msg: "{{ ufw_output }}"
     - name: Using ansible magic/special variables
       debug:
         msg: "The clientip is {{ ansible_host }}"
