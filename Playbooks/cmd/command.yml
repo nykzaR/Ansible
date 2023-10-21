@@ -6,7 +6,7 @@
     - name: Execute commands if a specific module not found in ansible
       become: yes
       ansible.builtin.command:
-        cmd: 'curl http://172.31.25.2/info.php'
+        cmd: 'curl http://35.89.249.147:80/info.php'
       register: ufw_output
     - name: Print the output
       debug:
