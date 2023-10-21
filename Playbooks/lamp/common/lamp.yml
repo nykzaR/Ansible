@@ -1,7 +1,7 @@
 ---
 - name: Install LAMP Stack
   become: yes
-  hosts: all
+  hosts: webserver
   tasks:
     - name: update packages
       apt:
