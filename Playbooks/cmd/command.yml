@@ -9,10 +9,10 @@
         argv: 
           - ufw app list
           - ufw status
-      register: ufw_o/p
+      register: ufw_output
     - name: Print the output
       debug:
-        msg: "{{ ufw_o/p }}"
+        msg: "{{ ufw_output }}"
     - name: Using ansible magic/special variables
       debug:
         msg: "The clientip is {{ ansible_host }}"
