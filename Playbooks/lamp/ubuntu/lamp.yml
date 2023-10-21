@@ -1,0 +1,25 @@
+---
+- name: Install LAMP
+  become: yes
+  hosts: all
+  tasks:
+    - name: update packages
+      apt:
+        update_cache: yes
+    - name: Install apache and php
+      package:
+        name:
+        - apache2
+        - php
+        - libapache2-mod-php
+        state: present
+    - name: copy info.php
+      ansible.builtin.copy:
+        src: 'info.php'
+        dest: /var/www/html
+    - name: Restart apache
+      ansible.builtin.systemd:
+        name: 'apache2'
+        daemon_reload: yes
+        enabled: yes
+        state: restarted    
