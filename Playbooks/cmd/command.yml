@@ -6,7 +6,7 @@
     - name: Execute commands if a specific module not found in ansible
       become: yes
       ansible.builtin.command:
-        cmd: 'ufw status'
+        cmd: 'ufw app list'
       register: ufw_output
     - name: Print the output
       debug:
