@@ -13,4 +13,4 @@
         msg: "{{ ufw_output }}"
     - name: Using ansible magic/special variables
       debug:
-        msg: "The clientip is {{ ansible_host }}"
+        msg: "The client-ip is {{ ansible_host }}"
