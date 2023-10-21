@@ -32,4 +32,4 @@
         name: "{{ apache_package }}"
         daemon_reload: yes
         enabled: yes
-        state: started
+        state: restarted
