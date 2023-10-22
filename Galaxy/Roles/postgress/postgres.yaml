@@ -1,6 +1,5 @@
 ---
 - name: Install postgress
-  gather_facts: no
   hosts: db
   roles:
     - role: buluma.postgres
