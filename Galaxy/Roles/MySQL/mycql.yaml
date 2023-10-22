@@ -1,6 +1,5 @@
 ---
 - name: Install MySQL
-  gather_facts: no
   hosts: db
   roles:
     - role: geerlingguy.mysql
