@@ -1,0 +1,6 @@
+---
+- name: using tasks
+  become: yes
+  hosts: all
+  tasks:
+    - include_tasks: tasks.yaml

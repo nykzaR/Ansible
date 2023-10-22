@@ -1,0 +1,14 @@
+---
+# writing tasks directly
+- name: Install utils
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - pip
+    - tree
+- name: ensure file is created
+  file:
+    path: /tmp/msg
+    state: directory
