@@ -6,7 +6,7 @@
     state: present
   loop:
     - git
-    - pip
+    - curl
     - tree
 - name: ensure file is created
   file:
