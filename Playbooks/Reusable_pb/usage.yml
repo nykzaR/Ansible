@@ -12,6 +12,6 @@
       package:
         name: "{{ item }}"
       loop:
-        - zip
+        - git
         - tree
-        - stress
+        - zip
