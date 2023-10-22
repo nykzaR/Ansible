@@ -1,0 +1,8 @@
+---
+- name: using tasks
+  become: yes
+  hosts: all
+  tasks:
+    - name: Include task's list in play using reusable tasks
+      ansible.builtin.import_tasks:
+        file: tasks.yaml
