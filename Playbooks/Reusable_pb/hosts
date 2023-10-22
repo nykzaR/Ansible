@@ -1,2 +1,2 @@
-172.31.26.55 node_package=nodejs
-172.31.25.2 node_package=nodejs
+172.31.26.55 java_package=openjdk-11-jdk
+172.31.25.2 java_package=java-11-openjdk

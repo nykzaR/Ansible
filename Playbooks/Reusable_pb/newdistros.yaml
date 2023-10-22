@@ -1,5 +1,5 @@
 ---
-- name: Install NodeJS
+- name: Install Java
   become: yes
   hosts: all
   tasks:
@@ -7,7 +7,7 @@
       apt:
         update_cache: yes
       when: ansible_facts['os_family'] == "Ubuntu"
-    - name: Install nodejs
+    - name: Install jdk11
       package:
-        name: "{{ node_package }}"
+        name: "{{ java_package }}"
         state: present
