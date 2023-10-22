@@ -1,0 +1,13 @@
+---
+- name: Install NodeJS
+  become: yes
+  hosts: all
+  tasks:
+    - name: update package repositories
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Ubuntu"
+    - name: Install nodejs
+      package:
+        name: "{{ node_package }}"
+        state: present

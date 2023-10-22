@@ -1,0 +1,17 @@
+---
+- import_playbook: newdistros.yaml
+- name: Install utils
+  become: yes
+  hosts: all
+  tasks:
+    - name: update package repositories
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Ubuntu"
+    - name: Install utils
+      package:
+        name: "{{ item }}"
+      loop:
+        - zip
+        - tree
+        - stress
