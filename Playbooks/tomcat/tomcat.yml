@@ -9,7 +9,7 @@
     - tomcat_latest: "/opt/tomcat/latest"
     - default_shell: /bin/false
     - tomcat_version: "10.1.14"
-    - tomcat_shell_file_path: /opt/tomcat/latest/bin/
+    - tomcat_shell_file_path: /opt/tomcat/latest/bin
     - tomcat_service_file_path: /etc/systemd/system/tomcat.service
   tasks:
     - name: update packages

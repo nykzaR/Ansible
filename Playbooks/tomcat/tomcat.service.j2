@@ -5,10 +5,10 @@ After=network.target
 [Service]
 Type=forking
 
-User=username
-Group=username
+User={{ username }}
+Group={{ username }}
 
-Environment="JAVA_HOME=java_home"
+Environment="JAVA_HOME={{ java_home }}"
 Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
 
 Environment="CATALINA_BASE={{ tomcat_latest }}"
