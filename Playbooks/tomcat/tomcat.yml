@@ -27,7 +27,7 @@
       package:
         name: "{{ java_package }}"
         state: present
-    - name: add a user tomcat
+    - name: Add a user tomcat
       ansible.builtin.user:
         name: "{{ username }}"
         create_home: yes
@@ -37,7 +37,7 @@
       ansible.builtin.get_url:
         url: https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
         dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
-    - name: Extract tomcat
+    - name: Extract tomcat tar
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
         owner: "{{ username }}"
@@ -52,29 +52,29 @@
         owner: "{{ username }}"
         group: "{{ username }}"
         state: link
-    - name: change ownership
+    - name: Change ownership
       ansible.builtin.file:
         path: "{{ home_dir }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         state: directory
         recurse: yes
-    - name: finding shell files
+    - name: Finding shell files
       ansible.builtin.find:
         paths: "{{ tomcat_latest }}/bin"
         patterns: "*.sh"
       register: shell_files_executables
-    - name: Printing the previous variable    
+    - name: Printing the shell files   
       debug:
         var: shell_files_executables
-    - name: execuatble permissions to shell files
+    - name: Execuatble permissions to shell files
       ansible.builtin.file:
         path: "{{ item.path }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: "0755"
       loop: "{{ shell_files_executables.files }}"
-    - name: copy the service file
+    - name: Copy the tomcat service file
       ansible.builtin.template:
         src: 'tomcat.service.j2'
         dest: "{{ tomcat_service_file_path }}"
@@ -84,11 +84,11 @@
         - Reload the daemon enable and start the tomcat service
     - name: Force all notified handlers to run at this point, not waiting for normal sync points
       ansible.builtin.meta: flush_handlers
-    - name: ensure tomcat service is running
+    - name: Ensure that the tomcat service is running
       ansible.builtin.systemd:
         name: 'tomcat.service'
         state: started
-    - name: copy the tomcat-users file
+    - name: Copy the tomcat-users file
       ansible.builtin.template:
         src: 'tomcat-users.xml.j2'
         dest: "{{ tomcat_latest }}/{{ tomcat_users_xml }}"
@@ -96,7 +96,7 @@
         group: "{{ username }}"
       notify:
         - Reload the daemon enable and start the tomcat service
-    - name: copy the manager app file
+    - name: Copy the manager-context file
       ansible.builtin.template:
         src: 'manager-context.xml.j2'
         dest: "{{ item }}"
@@ -105,7 +105,7 @@
       loop: "{{ tc_context_locations }}"
       notify:
         - Reload the daemon enable and start the tomcat service
-    - name: Deploy any war file
+    - name: Deploy a war file
       ansible.builtin.get_url:
         url: "{{ deploy_url }}"
         dest: "{{ tomcat_latest}}/webapps/{{ deploy_file_name }}"
