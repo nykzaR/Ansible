@@ -10,11 +10,11 @@
     - default_shell: "/bin/false"
     - tomcat_version: "10.1.14"
     - tomcat_service_file_path: "/etc/systemd/system/tomcat.service"
-    - tomcat_users: "conf/tomcat-users.xml"
+    - tomcat_users_xml: "conf/tomcat-users.xml"
     - tc_admin_user: "devops"
     - tc_admin_password: "devops"
-    - allow-manager-context-xml: '.*'
-    - tc-context-locations:
+    - allow_manager_context_xml: '.*'
+    - tc_context_locations:
       - /opt/tomcat/latest/webapps/manager/META-INF/context.xml
       - /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
     - deploy_file_name: "jenkins.war"
@@ -91,7 +91,7 @@
     - name: copy the tomcat-users file
       ansible.builtin.template:
         src: 'tomcat-users.xml.j2'
-        dest: "{{ tomcat_latest }}/{{ tomcat_users }}"
+        dest: "{{ tomcat_latest }}/{{ tomcat_users_xml }}"
         owner: "{{ username }}"
         group: "{{ username }}"
       notify:
@@ -102,7 +102,7 @@
         dest: "{{ item }}"
         owner: "{{ username }}"
         group: "{{ username }}"
-      loop: "{{ tc-context-locations }}"
+      loop: "{{ tc_context_locations }}"
       notify:
         - Reload the daemon enable and start the tomcat service
     - name: Deploy any war file
