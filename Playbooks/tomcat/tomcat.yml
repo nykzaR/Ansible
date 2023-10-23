@@ -9,6 +9,8 @@
     - tomcat_latest: "/opt/tomcat/latest"
     - default_shell: "/bin/false"
     - tomcat_version: "10.1.14"
+    - tc_download_url: https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
+    - tc_download_dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
     - tomcat_service_file_path: "/etc/systemd/system/tomcat.service"
     - tomcat_users_xml: "conf/tomcat-users.xml"
     - tc_admin_user: "devops"
@@ -35,11 +37,11 @@
         shell: "{{ default_shell }}"
     - name: Download tomcat
       ansible.builtin.get_url:
-        url: https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz
-        dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
-    - name: Extract tomcat tar
+        url: "{{ tc_download_url}}"
+        dest: "{{ tc_download_dest }}"
+    - name: Extract tomcat tar file
       ansible.builtin.unarchive:
-        src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        src: "{{ tc_download_dest }}"
         owner: "{{ username }}"
         group: "{{ username }}"
         dest: "{{ home_dir }}"
