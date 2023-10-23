@@ -91,7 +91,7 @@
     - name: copy the tomcat-users file
       ansible.builtin.template:
         src: 'tomcat-users.xml.j2'
-        dest: "{{ tomcat_latest }}/{{ tomcat-users-xml}}"
+        dest: "{{ tomcat_latest }}/{{ tomcat-users-xml }}"
         owner: "{{ username }}"
         group: "{{ username }}"
       notify:
