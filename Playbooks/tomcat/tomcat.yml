@@ -3,13 +3,12 @@
   become: yes
   hosts: all
   vars:
-    - username: tomcat
-    - java_home: /usr/lib/jvm/java-11-openjdk-amd64
-    - home_dir: /opt/tomcat
+    - username: "tomcat"
+    - java_home: "/usr/lib/jvm/java-11-openjdk-amd64"
+    - home_dir: "/opt/tomcat"
     - tomcat_latest: "/opt/tomcat/latest"
-    - default_shell: /bin/false
+    - default_shell: "/bin/false"
     - tomcat_version: "10.1.14"
-    - tomcat_shell_file_path: /opt/tomcat/latest/bin
     - tomcat_service_file_path: /etc/systemd/system/tomcat.service
   tasks:
     - name: update packages
@@ -53,7 +52,7 @@
         recurse: yes
     - name: finding shell files
       ansible.builtin.find:
-        paths: "{{ tomcat_shell_file_path }}"
+        paths: "{{ tomcat_latest }}/bin"
         patterns: "*.sh"
       register: shell_files_executables
     - name: Printing the previous variable    
