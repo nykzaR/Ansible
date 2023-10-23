@@ -9,7 +9,16 @@
     - tomcat_latest: "/opt/tomcat/latest"
     - default_shell: "/bin/false"
     - tomcat_version: "10.1.14"
-    - tomcat_service_file_path: /etc/systemd/system/tomcat.service
+    - tomcat_service_file_path: "/etc/systemd/system/tomcat.service"
+    - tomcat-users-xml: "conf/tomcat-users.xml"
+    - tc_admin_user: "devops"
+    - tc_admin_password: "devops"
+    - allow-manager-context-xml: '.*'
+    - tc-context-locations:
+      - /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+      - /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+    - deploy_file_name: "jenkins.war"
+    - deploy_url: "https://get.jenkins.io/war-stable/2.414.3/jenkins.war"
   tasks:
     - name: update packages
       apt:
@@ -57,7 +66,7 @@
       register: shell_files_executables
     - name: Printing the previous variable    
       debug:
-          var: shell_files_executables
+        var: shell_files_executables
     - name: execuatble permissions to shell files
       ansible.builtin.file:
         path: "{{ item.path }}"
@@ -79,6 +88,31 @@
       ansible.builtin.systemd:
         name: 'tomcat.service'
         state: started
+    - name: copy the tomcat-users file
+      ansible.builtin.template:
+        src: 'tomcat-users.xml.j2'
+        dest: "{{ tomcat_latest }}/{{ tomcat-users-xml}}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+      notify:
+        - Reload the daemon enable and start the tomcat service
+    - name: copy the manager app file
+      ansible.builtin.template:
+        src: 'manager-context.xml.j2'
+        dest: "{{ item }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+      loop: "{{ tc-context-locations }}"
+      notify:
+        - Reload the daemon enable and start the tomcat service
+    - name: Deploy any war file
+      ansible.builtin.get_url:
+        url: "{{ deploy_url }}"
+        dest: "{{ tomcat_latest}}/webapps/{{ deploy_file_name }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+      notify:
+        - Reload the daemon enable and start the tomcat service  
   handlers:  
     - name: Reload the daemon enable and start the tomcat service
       ansible.builtin.systemd:
