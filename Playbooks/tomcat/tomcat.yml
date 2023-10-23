@@ -4,8 +4,9 @@
   hosts: all
   vars:
     - username: tomcat
+    - java_home: /usr/lib/jvm/java-11-openjdk-amd64
     - home_dir: /opt/tomcat
-    - tomcat_latest: "{{ home_dir }}/latest"
+    - tomcat_latest: "/opt/tomcat/latest"
     - default_shell: /bin/false
     - tomcat_version: "10.1.14"
     - tomcat_shell_file_path: /opt/tomcat/latest/bin/
@@ -18,7 +19,7 @@
       package:
         name: "{{ java_package }}"
         state: present
-    - name: useradd tc
+    - name: add a user tomcat
       ansible.builtin.user:
         name: "{{ username }}"
         create_home: yes
@@ -66,14 +67,21 @@
         mode: "0755"
       loop: "{{ shell_files_executables.files }}"
     - name: copy the service file
-      ansible.builtin.copy:
-        src: 'tomcat.service'
+      ansible.builtin.template:
+        src: 'tomcat.service.j2'
         dest: "{{ tomcat_service_file_path }}"
         owner: "{{ username }}"
         group: "{{ username }}"
-    - name: Restart tomcat
+      notify:
+        - Reload the daemon enable and start the tomcat service
+    - name: ensure tomcat service is running
+      ansible.builtin.systemd:
+        name: 'tomcat.service'
+        state: started
+  handlers:  
+    - name: Reload the daemon enable and start the tomcat service
       ansible.builtin.systemd:
         name: 'tomcat.service'
         daemon_reload: yes
         enabled: yes
-        state: started
+        state: restarted
