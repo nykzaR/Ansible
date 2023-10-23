@@ -19,8 +19,8 @@
     - tc_context_locations:
       - /opt/tomcat/latest/webapps/manager/META-INF/context.xml
       - /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
-    - deploy_file_name: "jenkins.war"
-    - deploy_url: "https://get.jenkins.io/war-stable/2.414.3/jenkins.war"
+    - deploy_file_name: 'jenkins.war'
+    - deploy_url: https://get.jenkins.io/war-stable/2.414.3/jenkins.war
   tasks:
     - name: update packages
       apt:
@@ -114,7 +114,7 @@
         owner: "{{ username }}"
         group: "{{ username }}"
       notify:
-        - Reload the daemon enable and start the tomcat service  
+        - Reload the daemon enable and start the tomcat service
   handlers:  
     - name: Reload the daemon enable and start the tomcat service
       ansible.builtin.systemd:
