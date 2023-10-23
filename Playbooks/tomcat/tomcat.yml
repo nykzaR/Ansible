@@ -10,7 +10,7 @@
     - default_shell: "/bin/false"
     - tomcat_version: "10.1.14"
     - tomcat_service_file_path: "/etc/systemd/system/tomcat.service"
-    - tomcat-users: "conf/tomcat-users.xml"
+    - tomcat_users: "conf/tomcat-users.xml"
     - tc_admin_user: "devops"
     - tc_admin_password: "devops"
     - allow-manager-context-xml: '.*'
@@ -91,7 +91,7 @@
     - name: copy the tomcat-users file
       ansible.builtin.template:
         src: 'tomcat-users.xml.j2'
-        dest: "{{ tomcat_latest }}/{{ tomcat-users }}"
+        dest: "{{ tomcat_latest }}/{{ tomcat_users }}"
         owner: "{{ username }}"
         group: "{{ username }}"
       notify:
